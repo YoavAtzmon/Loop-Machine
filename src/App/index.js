@@ -1,88 +1,130 @@
 import Bass from '../audioTrack/bass.mp3'
 import BassDrum from '../audioTrack/bassdrum.mp3'
 import BreakBeats from '../audioTrack/breakbeats.mp3'
-import funkBeats from '../audioTrack/funkbeats.mp3'
-import guitar from '../audioTrack/guitar.mp3'
+import FunkBeats from '../audioTrack/funkbeats.mp3'
+import Guitar from '../audioTrack/guitar.mp3'
 import MazePolitics from '../audioTrack/mazepolitics.mp3'
 import RockGroove from '../audioTrack/rockgroove.mp3'
 import Synth from '../audioTrack/synth.mp3'
 import Tanggu from '../audioTrack/tanggu.mp3'
 import { Howl, Howler } from 'howler';
 import React, { useEffect, useState } from 'react'
+import { ButtonGroup, IconButton, makeStyles, Radio, RadioGroup, Typography } from '@material-ui/core'
+import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
+import StopOutlinedIcon from '@material-ui/icons/StopOutlined';
+import { blue, grey } from '@material-ui/core/colors'
 
-
+const useStyles = makeStyles({
+    radio: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    play: {
+        backgroundColor: grey[300],
+        width: '60px',
+        color :"#0098f5b8"
+    },
+    title:{
+        color :"#0098f5b8"
+    }
+})
 const audioTracks = [
-    { sound: Bass, label: 'Bass' },
-    { sound: BassDrum, label: 'BassDrum' },
-    { sound: BreakBeats, label: 'BreakBeats' },
-    { sound: funkBeats, label: 'funkBeats' },
-    { sound: guitar, label: 'guitar' },
-    { sound: MazePolitics, label: 'MazePolitics' },
-    { sound: RockGroove, label: 'RockGroove' },
-    { sound: Synth, label: 'Synth' },
-    { sound: Tanggu, label: 'Tanggu' },
+    { sound: Bass, label: 'Bass', icon: "https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-electric-guitar-rock-and-roll-justicon-lineal-color-justicon.png" },
+    { sound: BassDrum, label: 'BassDrum', icon: "https://img.icons8.com/emoji/48/000000/drum-emoji.png"},
+    { sound: Tanggu, label: 'Tanggu', icon:"https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-drums-tropical-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png" },
+    { sound: BreakBeats, label: 'BreakBeats', icon:"https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-drum-rock-and-roll-justicon-lineal-color-justicon.png"},
+    { sound: Guitar, label: 'guitar', icon:"https://img.icons8.com/external-vitaliy-gorbachev-blue-vitaly-gorbachev/60/000000/external-guitar-stay-home-vitaliy-gorbachev-blue-vitaly-gorbachev.png"},
+    { sound: FunkBeats, label: 'funkBeats', icon:"https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-drum-chinese-new-year-wanicon-lineal-color-wanicon.png"},
+    { sound: Synth, label: 'Synth', icon:"https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-keyboard-rock-and-roll-justicon-lineal-color-justicon.png" },
+    { sound: RockGroove, label: 'RockGroove', icon: "https://img.icons8.com/color/48/000000/drum-set.png" },
+    { sound: MazePolitics, label: 'MazePolitics', icon: "https://img.icons8.com/external-vitaliy-gorbachev-flat-vitaly-gorbachev/58/000000/external-stars-location-vitaliy-gorbachev-flat-vitaly-gorbachev.png"},
 ]
 
 
 export default function App() {
+    const classes = useStyles(),
+    [onAndOff, setOnAndOff] = useState([]),
+    [mode, setMode] = useState(''),
+    [counter,setCounter] = useState(0)
 
-    const [onAndOff, setOnAndOff] = useState([])
-    const [counter, setCounter] = useState(0)
-    // const[mode, setMode] = useState('')
-    console.log(`map:`, onAndOff.map(item => item));
 
-    const trackPlay = (mode) => {
-        if (mode == 'play') {
-            onAndOff.forEach(item =>item.stop())
+    function trackPlay(status, arr) {
+        if (mode == 'play' && !status) {
+            onAndOff.forEach(item => item.pause())
             onAndOff.forEach(item => item.play())
+            setCounter(counter + 1)
+        } 
+        else if (mode == 'join' && !status) {
+            onAndOff[0].on('end', function () {
+                setMode('play')
+            })
         }
-        else{
-            onAndOff.forEach(item =>
-                item.stop())
-                
+        else if (status == 'off' && counter > 0) {
+            onAndOff.forEach(item => item.pause())
+            arr.forEach(item => item.play())
         }
-
+        else {
+            onAndOff.forEach(item => item.stop())
+            setCounter(0)
+        }
     }
 
-    function Play() {
-        setCounter(counter + 1)
-        trackPlay('play')
+    function handleOnClick(src, status) {
+        if (status == 'on') {
+            setOnAndOff([...onAndOff, new Howl({
+                src,
+                loop: true
+            })])
+            setMode('join')
+        }
+        else {
+            let arr = onAndOff.filter(item => item._src != src)
+            trackPlay('off', arr)
+            setOnAndOff(arr)
+        }
     }
 
-    function Stop() {
-        trackPlay('stop')
-    }
+    useEffect(() => trackPlay(), [mode])
 
+    Howler.volume(0.2)
 
-
-    function handleOnClick(src,status){
-        console.log(status);
-        status == 'on' ? 
-        setOnAndOff([...onAndOff,  new Howl({
-            src,
-            loop: true,
-            autoplay:counter != 0 ? true : false,
-        })])
-        :
-        setOnAndOff(onAndOff.filter(item => item._src != src))
-    }
-
-    Howler.volume(0.5)
-
-    return <div>
+    return <div className="container">
+        <Typography
+            className={classes.title}
+            variant="h5"
+            color="Secondary"
+        >LOOPER MACHINE</Typography>
         {audioTracks.map((track, index) =>
-            <div>
-                <p>{track.label}</p>
-                <input  key ={index} type="radio" name={`radio${index}`} onClick={()=>handleOnClick(track.sound,'on')} />ON
-                <input  type="radio" name={`radio${index}`} onClick={() =>handleOnClick(track.sound,'off') } />OFF
+            <div className="loop">
+                <div>
+                    <img className="img" src={track.icon} />
+                </div>
+                <RadioGroup className={classes.radio} defaultValue={'on'} color="primary">
+                    <Radio key={index} color="primary" value={'on'} className={classes.r} onClick={() => handleOnClick(track.sound, 'on')} /><p className="p">ON</p>
+                    <Radio key={track.label} color="primary" value={'off'} className={classes.r}  onClick={() => handleOnClick(track.sound, 'off')} /><p className="p"> OFF</p>
+                </RadioGroup>
             </div>
+
         )}
-        <button name="play" onClick={Play}>
-            <p>play</p>
-        </button>
-        <button name="stop" onClick={Stop} >
-            <p>stop</p>
-        </button>
+        <ButtonGroup>
+            <IconButton
+                className={classes.play}
+                name="play"
+                onClick={() => setMode('play')}
+                
+            >
+                <PlayCircleFilledWhiteOutlinedIcon />
+            </IconButton>
+            <IconButton
+                className={classes.play}
+                name="stop"
+                onClick={() => setMode('stop')}
+                color="secondary"
+            >
+                <StopOutlinedIcon />
+            </IconButton>
+        </ButtonGroup>
     </div>
 
 }

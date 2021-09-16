@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container{
+    background-image: url(https://cdn.pixabay.com/photo/2020/01/31/07/53/man-4807395_960_720.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(169, 172, 174, 0.083);
+    margin: auto;
+    width: 70%;
+    border-radius: 15px;
+    padding: 10px ;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+.loop{
+    margin:10px
+}
+.img{
+    margin:5px;
+    width: 80px;
+}
+.p{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: bisque;
+}
