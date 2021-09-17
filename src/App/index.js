@@ -12,13 +12,32 @@ import React, { useEffect, useState } from 'react'
 import { ButtonGroup, IconButton, makeStyles, Radio, RadioGroup, Typography } from '@material-ui/core'
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import StopOutlinedIcon from '@material-ui/icons/StopOutlined';
-import { blue, grey } from '@material-ui/core/colors'
+import { grey, red,purple } from '@material-ui/core/colors'
+import { createTheme } from '@material-ui/core/styles'
+import {ThemeProvider} from '@material-ui/core'
 
-const useStyles = makeStyles({
+const theme = createTheme({
+    palette:{
+      primary:{
+        main:'#fefefe'
+       },
+       secondary:purple
+    },
+    typography:{
+      fontFamily:'Quicksand',
+      fontWeightLight : 400,
+      fontWeightRegular : 500,
+      fontWeightMedium : 600,
+      fontWeightBold : 400
+    }
+  })
+const useStyles = makeStyles((theme)=>{
+    return {
     radio: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        
     },
     play: {
         backgroundColor: grey[300],
@@ -26,8 +45,23 @@ const useStyles = makeStyles({
         color :"#0098f5b8"
     },
     title:{
-        color :"#0098f5b8"
+        color :"#0098f5b8",
+        margin : theme.spacing(4),
+        fontFamily:'fantasy',
+        color:"#ffffffba"
+    },
+    on:{
+        color:red[500]
+    },
+    sound:{
+        fontFamily:'fantasy',
+        margin: theme.spacing(2,12.5),
+        fontSize:"x-large"
+    },
+    button:{
+        margin:"30px"
     }
+}
 })
 const audioTracks = [
     { sound: Bass, label: 'Bass', icon: "https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-electric-guitar-rock-and-roll-justicon-lineal-color-justicon.png" },
@@ -89,25 +123,30 @@ export default function App() {
 
     Howler.volume(0.2)
 
-    return <div className="container">
+    return <ThemeProvider theme={theme}>
+    <div className="container">
         <Typography
             className={classes.title}
-            variant="h5"
-            color="Secondary"
+            variant="h4"
         >LOOPER MACHINE</Typography>
         {audioTracks.map((track, index) =>
             <div className="loop">
-                <div>
-                    <img className="img" src={track.icon} />
-                </div>
-                <RadioGroup className={classes.radio} defaultValue={'on'} color="primary">
-                    <Radio key={index} color="primary" value={'on'} className={classes.r} onClick={() => handleOnClick(track.sound, 'on')} /><p className="p">ON</p>
+                <RadioGroup className={classes.radio} color="primary">
+                    <Radio key={index} value={'on'}  className={classes.on} onClick={() => handleOnClick(track.sound, 'on')} /><p className="p">ON</p>
                     <Radio key={track.label} color="primary" value={'off'} className={classes.r}  onClick={() => handleOnClick(track.sound, 'off')} /><p className="p"> OFF</p>
                 </RadioGroup>
+                <div>
+                    <Typography
+                        className={classes.sound}
+                        
+                    >
+                    {track.label}</Typography>
+                    {/* <img className="img" src={track.icon} /> */}
+                </div>
             </div>
 
         )}
-        <ButtonGroup>
+        <ButtonGroup className={classes.button}>
             <IconButton
                 className={classes.play}
                 name="play"
@@ -126,6 +165,7 @@ export default function App() {
             </IconButton>
         </ButtonGroup>
     </div>
+    </ThemeProvider>
 
 }
 
