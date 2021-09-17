@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme)=>{
     },
     sound:{
         fontFamily:'fantasy',
-        margin: theme.spacing(2,12.5),
+        // margin: theme.spacing(2,12.5),
         fontSize:"x-large"
     },
     button:{
@@ -138,6 +138,7 @@ export default function App() {
                 <div>
                     <Typography
                         className={classes.sound}
+                        spacing={10}
                         
                     >
                     {track.label}</Typography>
