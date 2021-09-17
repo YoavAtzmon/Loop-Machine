@@ -45,6 +45,8 @@ body {
 @media screen and (max-width: 600px) {
     .container{
         width: 100%;
+        display: block;
+
     }
     .loop{
         width: 90%;
@@ -52,8 +54,22 @@ body {
     .title{
         width: 250px;
     }
-  }
+}
 
+@media screen and (max-width: 429px) and (min-width: 350px) {
+    .container{
+        width: 100%;
+        display: block;
+
+    }
+    .loop{
+        width: 93%;
+    }
+    .title{
+        width: 224px;
+        margin-left: -40px;
+    }
+}
 .img{
     margin:5px;
     width: 80px;
