@@ -181,7 +181,7 @@ export default function App() {
             setSession('')
             delete localStorage.record
 
-            //The recording will and can only work under the following conditions
+            //The recording can't  work under the following conditions
             if (counter > 0 || onAndOff.length == 0) {
                 setError(`select one track at least or stop the loop`)
                 setChecked(false)
