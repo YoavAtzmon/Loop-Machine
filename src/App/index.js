@@ -245,7 +245,7 @@ export default function App() {
                     play.push(new Howl({
                         src,
                         loop: true,
-                        volume: src == Guitar ? 0.4 : 0.1
+                        volume:  src == Guitar|| src == Tanggu ? 0.2 : 0.1
                     }))
 
                 }
@@ -257,7 +257,7 @@ export default function App() {
                             play.push(new Howl({
                                 src,
                                 loop: true,
-                                volume: src == Guitar ? 0.4 : 0.1
+                                volume:  src == Guitar|| src == Tanggu ? 0.2 : 0.1
                             }))
 
                             play[0].on('end', function () {
