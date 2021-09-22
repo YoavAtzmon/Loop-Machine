@@ -84,8 +84,8 @@ const audioTracks = [
     { sound: BassDrum, label: 'BassDrum' },
     { sound: Tanggu, label: 'Tanggu' },
     { sound: BreakBeats, label: 'BreakBeats' },
-    { sound: Guitar, label: 'guitar', },
-    { sound: FunkBeats, label: 'funkBeats' },
+    { sound: Guitar, label: 'Guitar', },
+    { sound: FunkBeats, label: 'FunkBeats' },
     { sound: Synth, label: 'Synth' },
     { sound: RockGroove, label: 'RockGroove' },
     { sound: MazePolitics, label: 'MazePolitics' }
@@ -375,7 +375,7 @@ export default function App() {
                     :''}
                 <Typography
                     className={classes.playRecord}>
-                    play & record
+                    Play & Record
                 </Typography>
                 {error ? <Typography
                     className={classes.playRecord}
@@ -396,7 +396,7 @@ export default function App() {
                     <Button
                         className={classes.session}
                         onClick={playSession}
-                    >play record
+                    >Play Record
                     </Button> : ''}
             </div>
         </Paper>
