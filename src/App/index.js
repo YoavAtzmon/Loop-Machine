@@ -99,7 +99,8 @@ export default function App() {
         [counter, setCounter] = useState(0),
         [checked, setChecked] = useState(false),
         [session, setSession] = useState(''),
-        [error, setError] = useState('')
+        [error, setError] = useState(''),
+        [err,setErr] = useState('')
 
 
     //the function control all play and stop buttons exept the record playing time
@@ -217,13 +218,23 @@ export default function App() {
 
         }
         else {
-            setSession('session')
+            if(mode == 'stop'){
+                setSession('session')
+                setErr('')
+            }
+            else{
+                setErr('first stop the loop!')
+                setChecked(true)
+            }
         }
     }
 
 
     //A function which takes all user actions from the localstorage and then recovers them with a timer
     function playSession() {
+
+        
+
         setSession('playing')
         let arr = JSON.parse(localStorage.record)
         let play = []
@@ -376,6 +387,11 @@ export default function App() {
                     onChange={handleRec}
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
+                {err ? <Typography
+                    className={classes.playRecord}
+                    variant="h5"
+                    color="error">{err}
+                </Typography> : ''}
                 {session ?
                     <Button
                         className={classes.session}
